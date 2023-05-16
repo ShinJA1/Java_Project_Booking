@@ -55,6 +55,7 @@ public class ConnectionHelper {
 		System.out.println("\t 7. 예약 가능 식당 조회 ");
 		System.out.println("\t 8. 종료 ");
 		System.out.println("\t 9. commit");
+		System.out.println("\t 10. selectBook");
 		System.out.println("\t>> 원하는 메뉴 선택하세요 ");
 
 	}
