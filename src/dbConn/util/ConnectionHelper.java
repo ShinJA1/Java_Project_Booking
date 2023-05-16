@@ -10,10 +10,10 @@ public class ConnectionHelper {
 		try {
 			if(dsn.equals("mysql")) {
 				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kosaDB", "jj", "mysql");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kosaDB", "jihyo", "mysql");
 			} else if(dsn.equals("oracle")) {
 				Class.forName("oracle.jdbc.driver.OracleDriver");
-				conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "jj", "oracle");
+				conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "jihyo", "oracle");
 				System.out.println("oracle connection success");
 			}
 		} catch (Exception e) {

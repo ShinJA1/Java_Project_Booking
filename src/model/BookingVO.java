@@ -9,7 +9,7 @@ public class BookingVO {
 	private String b_name;   //예약자명 
 	private String b_phone;   //예약자 연락처
 	private Date b_date;   //예약일자
-	private Date b_time;   //예약시간
+	private String b_time;   //예약시간
 	private int b_rt_num;   //식당번호
 	private int b_inwon;   //예약 인원수
 	public int getB_num() {
@@ -36,10 +36,10 @@ public class BookingVO {
 	public void setB_date(Date b_date) {
 		this.b_date = b_date;
 	}
-	public Date getB_time() {
+	public String getB_time() {
 		return b_time;
 	}
-	public void setB_time(Date b_time) {
+	public void setB_time(String b_time) {
 		this.b_time = b_time;
 	}
 	public int getB_rt_num() {
@@ -57,7 +57,4 @@ public class BookingVO {
 	public String getClassName() {
 		return ClassName;
 	}
-	
-	
-
 }

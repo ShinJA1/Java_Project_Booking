@@ -52,13 +52,13 @@ public class BookingController {
 				System.out.println("안하시면 Rollback 됩니다");
 				if(sc.next().equalsIgnoreCase("Y")) {
 					conn.commit(); //예외발생
-					selectAll(rt_vo.getClassName());
+//					selectAll(rt_vo.getClassName());
 				} else {
 					conn.rollback();
 					selectAll(rt_vo.getClassName());
 				}
 				break;
-			case 1: selectAll(rt_vo.getClassName()); break;
+			case 1: selectBook(b_vo.getClassName()); break;
 			case 2: insert();  break;
 //			case 3: select(b_vo.getClassName()); break;
 			case 4: update(b_vo.getClassName()); break;
@@ -75,9 +75,10 @@ public class BookingController {
 	} //end menu
 	
 	
-
+//********************** 지애 - 타입별 식당 보기 *******************************
+	
 	    public static void selectByType(String className) throws SQLException {
-        selectAll(className);
+//        selectAll(className);
 //    	pstmt = conn.prepareStatement("select * from " + className +" where rt_type = ?");
         System.out.print("원하는 카테고리 입력: ");
         String rt_type = sc.next();
@@ -119,39 +120,110 @@ public class BookingController {
 			} //for end
 			System.out.println();
 		}//end while
-        
-        
-        
-        
-//        ArrayList<GogakVO> list = new ArrayList();
-//        while(rs.next()) {
-//        	GogakVO gogak = new GogakVO();
-//        	
-//        	gogak.setGno(rs.getInt("GNO"));
-//        	gogak.setGname(rs.getString("GNAME"));
-//        	gogak.setJumin(rs.getString("JUMIN"));
-//        	gogak.setPoint(rs.getInt("POINT"));
-//        	list.add(gogak);
-//        }
-//        if(list.size()==0) {
-//        	System.out.println("해당하는 사람이 없습니다");
-//        	System.out.println();
-//        	return;
-//        }
-//        for(GogakVO gogak: list) {
-//        	System.out.println("GNO: "+gogak.getGno());
-//        	System.out.println("GNAME: "+gogak.getGname());
-//        	System.out.println("JUMIN: "+gogak.getJumin());
-//        	System.out.println("POINT: "+gogak.getPoint());
-//        	System.out.println();
-//        }
 
     }
 
+//********************** 지효 - 예약 정보 수정 update *******************************
+		public static void update(String className) throws SQLException {
+		    System.out.println("예약 번호를 입력하세요: ");
+		    String b_num = sc.next();
+		 
+
+		    String str = null; 
+
+		    System.out.println("수정할 항목을 선택해 주세요.");
+		    System.out.println("1) 예약자명 2) 식당 3) 휴대폰번호 4) 예약 날짜 5) 예약 시간 6) 예약 인원");
+		    System.out.println("============================================");
+
+		    switch (sc.nextInt()) {
+		        case 1:
+		            System.out.print("수정할 예약자명: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET b_name = ? WHERE B_NUM = ? ");
+		            break;
+		        case 2:
+		            System.out.print("변경할 식당 이름: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET B_RT_NUM = (SELECT RT_NUM FROM RT WHERE RT_NAME = ?) WHERE B_NUM = ?");
+		            break;
+		        case 3:
+		            System.out.print("휴대폰 번호: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET b_phone = ? WHERE B_NUM = ? ");
+		            break;
+		        case 4:
+		            System.out.print("예약 날짜: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET b_date = ? WHERE B_NUM = ? ");
+		            break;
+		        case 5:
+		            System.out.print("예약 시간: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET b_time = ? WHERE B_NUM = ? ");
+		            break;
+		        case 6:
+		            System.out.print("예약 인원: ");
+		            str = sc.next();
+		            pstmt = conn.prepareStatement("UPDATE BOOK SET b_inwon = ? WHERE B_NUM = ? ");
+		            break;
+		    }
+
+		    try {
+		        pstmt.setString(1, str);
+		        pstmt.setString(2, b_num);
+		      
+		        int result = pstmt.executeUpdate();
+		        System.out.println(result + "개 데이터 수정 성공");
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
+
+		
+		private static PreparedStatement setString(int i, String str) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+		//예약 전체 보기
+	public static void selectBook(String className) throws SQLException{
+		rs = stmt.executeQuery("Select * from "+className);  //반환값 있는 경우
+		
+		ResultSetMetaData rsmd = rs.getMetaData();  //해당 테이블에 대한 정보
+		int count = rsmd.getColumnCount();  //컬럼 개수 리턴
+		
+		while(rs.next()) {
+			for(int i=1; i<=count; i++) {   //database 는 1부터
+				//각 타입별로 출력하기
+				switch (rsmd.getColumnType(i)) {
+				case Types.NUMERIC:
+				case Types.INTEGER:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getInt(i)+" ");
+					break;
+				case Types.FLOAT:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getFloat(i)+" ");
+					break;
+				case Types.DOUBLE:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getDouble(i)+" ");
+					break;
+				case Types.CHAR:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getString(i)+" ");
+					break;
+				case Types.DATE:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getDate(i)+" ");
+					break;
+					
+				default:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getString(i)+" ");
+					break;
+				}  //switch end
+			} //for end
+			System.out.println();
+		}//end while
+		
+	}//end BookAll
 	
-
-
-	//selectAll()
+	//selectAll
 	public static void selectAll(String className) throws SQLException{
 		rs = stmt.executeQuery("Select * from "+className);  //반환값 있는 경우
 		
@@ -179,9 +251,9 @@ public class BookingController {
 					System.out.println(rsmd.getColumnName(i)+" : "+rs.getDate(i)+" ");
 					break;
 					
-					default:
-						System.out.println(rsmd.getColumnName(i)+" : "+rs.getString(i)+" ");
-						break;
+				default:
+					System.out.println(rsmd.getColumnName(i)+" : "+rs.getString(i)+" ");
+					break;
 				}  //switch end
 			} //for end
 			System.out.println();
@@ -213,7 +285,7 @@ public class BookingController {
 	
 	
 	private static void delete(String className) throws SQLException {
-		selectAll(className);
+		
 		System.out.println("삭제할 고객번호 입력");
 		int gno = sc.nextInt();
 		
@@ -230,38 +302,6 @@ public class BookingController {
 		
 		
 	}
-	
-	
-	
-	// 3. update
-	public static void update(String className) throws SQLException {
-		selectAll(className);
-		System.out.println("수정할 사람 gno : ");
-		String gno = sc.next();
 
-		System.out.print("GNAME: ");  String gname = sc.next();
-		System.out.print("JUMIN: ");  String jumin = sc.next();
-		System.out.print("POINT: ");  String point = sc.next();
-		try {
-			pstmt = conn.prepareStatement("update GOGAK set gno=?, jumin=?, point=? WHERE GNO = ? ");
-			pstmt.setString(1, gno);
-			pstmt.setString(2, gname);
-			pstmt.setString(2, jumin);
-			pstmt.setString(3, point);
-			pstmt.setString(4, gno);
-
-			int result = pstmt.executeUpdate();
-
-			System.out.println(result + "개 데이터 수정 성공");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-
-	
-	
-	
 }
+
