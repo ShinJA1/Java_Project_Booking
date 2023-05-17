@@ -1,16 +1,14 @@
 package model;
 
-import java.util.Date;
-
 public class RTVO {
 public final String ClassName = "RT";
 	
-	private int rt_num;   //식당번호
+	private int rt_num;  	 //식당번호
 	private String rt_name;  //식당이름
 	private String rt_type;  //식당 카테고리
-	private int rt_inwon;  //수용인원
-	private String rt_start;  //오픈시간
-	private String rt_end;  //마감시간
+	private int rt_inwon;  	 //수용인원
+	private String rt_start; //오픈시간
+	private String rt_end;   //마감시간
 	public int getRt_num() {
 		return rt_num;
 	}

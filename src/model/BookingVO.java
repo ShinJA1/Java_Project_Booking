@@ -5,13 +5,14 @@ import java.util.Date;
 public class BookingVO {
 	public final String ClassName = "Book";
 	
-	private int b_num;   //예약번호
+	private int b_num;  	 //예약번호
 	private String b_name;   //예약자명 
-	private String b_phone;   //예약자 연락처
-	private Date b_date;   //예약일자
+	private String b_phone;  //예약자 연락처
+	private Date b_date;  	 //예약일자
 	private String b_time;   //예약시간
-	private int b_rt_num;   //식당번호
-	private int b_inwon;   //예약 인원수
+	private int b_rt_num;    //식당번호
+	private int b_inwon;     //예약 인원수
+	
 	public int getB_num() {
 		return b_num;
 	}

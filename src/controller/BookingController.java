@@ -134,7 +134,16 @@ public class BookingController {
 		    System.out.println("수정할 항목을 선택해 주세요.");
 		    System.out.println("1) 예약자명 2) 식당 3) 휴대폰번호 4) 예약 날짜 5) 예약 시간 6) 예약 인원");
 		    System.out.println("============================================");
+/*
+    int choice = sc.nextInt();
 
+    if (choice < 1 || choice > 6) {
+        System.out.println("잘못된 선택입니다.");
+        return;
+    }
+
+    switch (choice) {
+ */
 		    switch (sc.nextInt()) {
 		        case 1:
 		            System.out.print("수정할 예약자명: ");
